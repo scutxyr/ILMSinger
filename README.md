@@ -20,9 +20,12 @@ pip install -e '.[all]'
 ```
 ## 数据集的获取与处理
 1. 通过网易云平台爬取歌词。
-网易云提供了歌词接口`http://music.163.com/api/song/lyric?id=song_id&lv=1&kv=1&tv=-1.`我们只需获取一个歌单内或歌手的歌曲id，即可快速爬取歌词。通过requests方法读取网页div标签文件，找到歌曲id关键字后通过python程序进行网页爬取，具体方法见`get_lyrics.py`与`get_ids.py`
-2. 通过向InternLM2进行询问，得到对于每首歌歌词的内容总结和情感判断。
+网易云提供了歌词接口`http://music.163.com/api/song/lyric?id=song_id&lv=1&kv=1&tv=-1.`。所以我们只需获取一个歌单内或歌手的歌曲id，即可快速爬取歌词。通过requests方法读取网页div标签文件，找到歌曲id关键字后通过python程序进行网页爬取，具体方法见`get_lyrics.py`与`get_ids.py`
+2. 进行数据的清洗与标准化。`lyric_data_processing`文件夹中包含了数据处理的相关文件，包括
+3. 通过向InternLM2进行询问，得到对于每首歌歌词的内容总结和情感判断。
    格式化为"请创作一首{主题}，来表达{情感}"或"请创作一首表达{主题}"的文本，作为后续训练的问题输入。
 <div align=center>
 <img src=https://github.com/scutxyr/ILMSinger/blob/main/pic/process.png width=80% />
 </div>
+这样设计思路的目的与好处是：由于歌词语料是非对话语料，如何获得input内容是处理训练数据的一大难点。而让基座模型自行阅读歌词并给出输出，避免了人工标记（设计提问）的繁琐与可能导致的误差，确保input中的歌词主题与InternLM内在逻辑所理解的主题相符，将更多的注意力集中在学习歌词本身上。从结果来看，这样的数据集输入在大多数提问之下可以实现可接受的微调效果。  
+
