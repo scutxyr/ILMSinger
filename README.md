@@ -27,5 +27,12 @@ pip install -e '.[all]'
 <div align=center>
 <img src=https://github.com/scutxyr/ILMSinger/blob/main/pic/process.png width=80% />
 </div>
-这样设计思路的目的与好处是：由于歌词语料是非对话语料，如何获得input内容是处理训练数据的一大难点。而让基座模型自行阅读歌词并给出输出，避免了人工标记（设计提问）的繁琐与可能导致的误差，确保input中的歌词主题与InternLM内在逻辑所理解的主题相符，将更多的注意力集中在学习歌词本身上。从结果来看，这样的数据集输入在大多数提问之下可以实现可接受的微调效果。  
+
+这样设计思路的目的与好处是：由于歌词语料是非对话语料，如何获得input内容是处理训练数据的一大难点。而让基座模型自行阅读歌词并给出输出，避免了人工标记（设计提问）的繁琐与可能导致的误差，确保input中的歌词主题与InternLM的内在逻辑所理解的主题相符，将更多的注意力集中在学习歌词本身上。  
+　　从结果来看，这样的数据集输入在大多数提问之下可以实现可接受的微调效果。  
+　　格式化训练集形如：  
+<div align=center>
+<img src=https://github.com/scutxyr/ILMSinger/blob/main/pic/data1.png width=90% />
+</div>
+
 
