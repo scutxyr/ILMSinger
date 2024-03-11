@@ -23,4 +23,6 @@ pip install -e '.[all]'
 网易云提供了歌词接口`http://music.163.com/api/song/lyric?id=song_id&lv=1&kv=1&tv=-1.`我们只需获取一个歌单内或歌手的歌曲id，即可快速爬取歌词。通过requests方法读取网页div标签文件，找到歌曲id关键字后通过python程序进行网页爬取，具体方法见`get_lyrics.py`与`get_ids.py`
 2. 通过向InternLM2进行询问，得到对于每首歌歌词的内容总结和情感判断。
    格式化为"请创作一首{主题}，来表达{情感}"或"请创作一首表达{主题}"的文本，作为后续训练的问题输入。
-   
+<div align=center>
+<img src=https://github.com/scutxyr/ILMSinger/blob/main/pic/process.png width=80% />
+</div>
