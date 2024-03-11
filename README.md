@@ -35,4 +35,28 @@ pip install -e '.[all]'
 <img src=https://github.com/scutxyr/ILMSinger/blob/main/pic/data1.png width=90% />
 </div>
 
-
+## 微调设置
+具体启动文件设置以及参数见`internlm_7b_qlora_lyricqa1_e3.py`
+执行微调命令：
+```
+xtuner train ./internlm_chat_7b_qlora_lyricqa1_e3_copy.py  --deepspeed deepspeed_zero2
+# 多卡
+NPROC_PER_NODE=${GPU_NUM} xtuner train ./internlm_chat_7b_qlora_lyricqa1_e3.py
+```
+训练完成之后，转换参数为 HuggingFace 格式:
+```
+mkdir hf
+export MKL_SERVICE_FORCE_INTEL=1
+export MKL_THREADING_LAYER=GNU
+xtuner convert pth_to_hf ./internlm_chat_7b_qlora_oasst1_e3_copy.py ./work_dirs/internlm_chat_7b_qlora_oasst1_e3_copy/epoch_1.pth ./hf
+```
+## 部署
+合并模型：
+`xtuner convert merge ./internlm-chat-7b ./hf ./merged --max-shard-size 2GB`
+运行测试：
+`xtuner chat ./merged --prompt-template internlm_chat`
+几个重要参数：
+```
+--prompt-template # 若为InternLM2，需要更改对应参数，也可自定义
+--temperature  # 对于生成歌词任务而言，温度值应适当调高，否则歌词过于保守重复
+```
